@@ -67,6 +67,10 @@ namespace TwitchBot
         {
             CompilerParameters compilerParams = new CompilerParameters { GenerateExecutable = false, GenerateInMemory = true };
 
+            #if DEBUG
+            compilerParams.IncludeDebugInformation = true;
+            #endif
+
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 try

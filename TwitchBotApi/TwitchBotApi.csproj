@@ -62,6 +62,7 @@
     <Compile Include="Utility\CasFlag.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\PausableThread.cs" />
+    <Compile Include="Utility\TimerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TwitchBotApi.IRC;
+using TwitchBotApi.Network;
 using TwitchBotApi.Utility;
 
 namespace TwitchBotApi.Scripting
@@ -84,6 +85,9 @@ namespace TwitchBotApi.Scripting
                 Logger.Fatal("Required interfaces: IMainScript, IMessageParser");
                 return false;
             }
+
+            //TODO: Move somewhere else?
+            Connection.Open();
 
             Logger.Info("ScriptEngine started");
             mainScript.Main();

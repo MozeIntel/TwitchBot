@@ -13,7 +13,7 @@ namespace TwitchBotApi.Network
      * Helper class for network output.
      * Order of messages sent is NOT guaranteed.
      */
-    public class SocketWriter : PausableThread
+    internal class SocketWriter : PausableThread
     {
         private StreamWriter writer;
         private BlockingCollection<string> queue;

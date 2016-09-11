@@ -11,7 +11,7 @@ namespace TwitchBotApi.Network
     /*
      * Class for thread safe network input
      */
-    public class SocketReader : PausableThread
+    internal class SocketReader : PausableThread
     {
         private StreamReader reader;
         private Encoding utf8Encoder;

@@ -15,13 +15,20 @@ namespace TwitchBotApi.Utility
         //Checks if the flag is clear: if it is, updates it to set.
         public bool Set()
         {
-            return Interlocked.CompareExchange(ref flag, 0, 1) == 0;
+            return Interlocked.CompareExchange(ref flag, 1, 0) == 0;
         }
 
         //Checks if the flag is set: if it is, updates it to clear.
         public bool Clear()
         {
-            return Interlocked.CompareExchange(ref flag, 1, 0) == 1;
+            return Interlocked.CompareExchange(ref flag, 0, 1) == 1;
+        }
+
+        //Returns the flag state without updating it
+        public bool State()
+        {
+            //Reads on a volatile variable are atomic, and our var is marked volatile
+            return flag == 1 ? true : false;
         }
     }
 }

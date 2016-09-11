@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading;
 using TwitchBotApi.IRC;
-using TwitchBotApi.Network;
 using TwitchBotApi.Scripting;
 using TwitchBotApi.Utility;
 
@@ -21,46 +19,15 @@ namespace Scripts
         public int DefaultRateLimit { get { return 20; } }
         public int DefaultRateLimitInterval { get { return 30; } }
 
-        private CasFlag connectingFlag = new CasFlag(true);
-
         void IMainScript.Main()
         {
             Logger.Info("Main script starting");
-            IRCEvents.Register("Connect", OnConnect);
-            IRCEvents.Register("Disconnect", OnDisconnect);
             IRCEvents.Register("Login", OnLogin);
-
-            Connection.Open();
-        }
-
-        private void OnConnect(EventArgs args)
-        {
-            if (connectingFlag.Clear())
-            {
-                Connection.Login();
-
-                //NOTICE, HOSTTARGET, CLEARCHAT, USERSTATE, RECONNECT, ROOMSTATE, USERNOTICE
-                Connection.RequestCap("commands");
-
-                //Add IRCv3 tags to commands
-                Connection.RequestCap("tags");
-            }
-        }
-
-        private void OnDisconnect(EventArgs args)
-        {
-            if (connectingFlag.Set())
-            {
-                Logger.Info("Client was disconnected, attempting connection in {0} seconds", Connection.CONNECT_COOLDOWN_TIME);
-
-                Timer timer = null;
-                timer = new Timer((obj) => { Connection.Open(); timer.Dispose(); }, null, Connection.CONNECT_COOLDOWN_TIME * 1000, 0);
-            }
         }
 
         private void OnLogin(EventArgs args)
         {
-            Connection.JoinChannel("lobosjr");
+            //Join channel
         }
     }
 }

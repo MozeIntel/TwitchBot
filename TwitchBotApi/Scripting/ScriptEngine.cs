@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TwitchBotApi.IRC;
 using TwitchBotApi.Network;
@@ -9,8 +8,7 @@ namespace TwitchBotApi.Scripting
 {
     public static class ScriptEngine
     {
-        //Script loading is parallel, so we need a thread-safe collection
-        private static ConcurrentBag<IScript> loadedScripts = new ConcurrentBag<IScript>(); //ConcurrentBag makes me laugh every time. 
+        private static List<IScript> loadedScripts = new List<IScript>(); //No more ConcurrentBag :( Gone, but not forgotten.
 
         private static IMainScript mainScript;
         public static IMainScript MainScript { get { return mainScript; } }

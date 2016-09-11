@@ -6,9 +6,9 @@ using TwitchBotApi.Utility;
 
 namespace TwitchBotApi.Network
 {
-    /*
-     * Static class for network I/O handling
-     */
+    /// <summary>
+    /// Helper class for Network I/O.
+    /// </summary>
     public static class Connection
     {
         public const int CONNECT_COOLDOWN_TIME = 10;
@@ -30,7 +30,12 @@ namespace TwitchBotApi.Network
             IRCEvents.Register("Disconnect", OnDisconnect);
         }
 
-        //Coninuosly attemps connection in a 10 second interval. Method is non-blocking
+        /// <summary>
+        /// Continuosly tries to open the network connection, until one is established.
+        /// </summary>
+        /// <remarks>
+        /// This method is non-blocking.
+        /// </remarks>
         public static void Open()
         {
             if (connectingFlag.Set())
@@ -91,40 +96,45 @@ namespace TwitchBotApi.Network
             Login();
         }
 
-        //Login with the credentials specified in the IMainScript
+        /// <summary>Login with the credentials specified in the <see cref="TwitchBotApi.Scripting.IMainScript"/>.</summary>
         private static void Login()
         {
             writer.SendMessage(true, "PASS {0}", ScriptEngine.MainScript.Password);
             writer.SendMessage(true, "NICK {0}", ScriptEngine.MainScript.Username);
         }
 
-        /*
-         * Join an IRC chatroom.
-         * The channel must NOT start with the trailing '#'
-         */
+        /// <summary>
+        /// Join the IRC channel.
+        /// </summary>
+        /// <param name="channel">The channel to join. Must NOT start with the leading '#'.</param>
         public static void JoinChannel(string channel)
         {
             writer.SendMessage(true, "JOIN #{0}", channel.ToLower());
         }
 
-        /*
-         * Request a Capability.
-         * Currently supports membership, commands and tags
-         */
+        /// <summary>
+        /// Request an IRCv3 capability.
+        /// </summary>
+        /// <param name="cap">The capability to request. Currently supports membership, commands and tags</param>
         public static void RequestCap(string cap)
         {
             writer.SendMessage(false, "CAP REQ :twitch.tv/{0}", cap.ToLower());
         }
 
-        //Reply to a PING message
+        /// <summary>
+        /// Reply to a PING message.
+        /// </summary>
+        /// <param name="pingMessage">The actual message of the PING command.</param>
         public static void Pong(string pingMessage)
         {
             writer.SendMessage(false, "PONG :{0}", pingMessage);
         }
 
-        /*
-         * Writes the message as is to the network buffer.
-         */ 
+        /// <summary>
+        /// Writes the message as is to the network buffer.
+        /// </summary>
+        /// <param name="message">The message to send. The newline terminator will be automatically added.</param>
+        /// <param name="rateLimit">Whether this message should respect the rate limitations, or should be sent immediately.</param>
         public static void SendRaw(string message, bool rateLimit = false)
         {
             writer.SendMessage(rateLimit, message);

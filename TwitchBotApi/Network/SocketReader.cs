@@ -8,9 +8,9 @@ using TwitchBotApi.Utility;
 
 namespace TwitchBotApi.Network
 {
-    /*
-     * Class for thread safe network input
-     */
+    /// <summary>
+    /// Handles network input asynchronously.
+    /// </summary>
     internal class SocketReader : PausableThread
     {
         private StreamReader reader;
@@ -60,12 +60,13 @@ namespace TwitchBotApi.Network
             ThreadPool.QueueUserWorkItem(WorkItemCallback, line);
         }
 
-        /*
-         * Callback for the thread pool work job. The state is the line to process
-         */ 
+        /// <summary>
+        /// <see cref="System.Threading.ThreadPool"/> work item callback.
+        /// </summary>
+        /// <param name="state">String to process</param>
         private void WorkItemCallback(object state)
         {
-            IRCMessage message = ScriptEngine.ProcessIrcMessage(state as string);
+            IRCMessage message = ScriptEngine.ParseIrcMessage(state as string);
 
             if (message != null)
             {

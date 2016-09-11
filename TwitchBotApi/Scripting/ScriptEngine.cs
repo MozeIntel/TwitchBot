@@ -6,6 +6,9 @@ using TwitchBotApi.Utility;
 
 namespace TwitchBotApi.Scripting
 {
+    /// <summary>
+    /// Static class for everything script related
+    /// </summary>
     public static class ScriptEngine
     {
         private static List<IScript> loadedScripts = new List<IScript>(); //No more ConcurrentBag :( Gone, but not forgotten.
@@ -19,13 +22,18 @@ namespace TwitchBotApi.Scripting
         private static Dictionary<string, IMessageHandler> messageHandlerMap = new Dictionary<string, IMessageHandler>();
 
 
-        //Register a loaded script in the engine
+        /// <summary>
+        /// Register a loaded script for processing
+        /// </summary>
+        /// <param name="script"> The script to register </param>
         public static void RegisterScript(IScript script)
         {
             loadedScripts.Add(script);
         }
 
-        //Sort all loaded script based on type
+        /// <summary>
+        /// Process all registered scripts.
+        /// </summary>
         public static void ProcessScripts()
         {
             Logger.Info("Processing scripts...");
@@ -74,13 +82,18 @@ namespace TwitchBotApi.Scripting
             Logger.Success("Processed {0} scripts ({1} succedeed, {2} failed)", loadedScripts.Count, success, fail);
         }
 
-        //Some scripts are required for the engine to run properly
+        /// <summary>
+        /// Some scripts are necessary for everything to work properly
+        /// </summary>
+        /// <returns>If the engine can start properly</returns>
         public static bool HasNecessaryScripts()
         {
             return mainScript != null;
         }
 
-        //Start the engine!
+        /// <summary>
+        /// Perform some last checks, and start the main script
+        /// </summary>
         public static bool Start()
         {
             if (!HasNecessaryScripts())
@@ -98,8 +111,13 @@ namespace TwitchBotApi.Scripting
             return true;
         }
 
-        //Parse a network IRC message. May return null if the script fails.
-        public static IRCMessage ProcessIrcMessage(string message)
+        /// <summary>
+        /// Parses a raw network IRC message into an <see cref="TwitchBotApi.IRC.IRCMessage"/> object, 
+        /// using the registered <see cref="TwitchBotApi.Scripting.IMessageParser"/>
+        /// </summary>
+        /// <param name="message">The message to parse</param>
+        /// <returns>The <see cref="TwitchBotApi.IRC.IRCMessage"/> object, or null if the <see cref="TwitchBotApi.Scripting.IMessageParser"/> failed</returns>
+        public static IRCMessage ParseIrcMessage(string message)
         {
             try
             {
@@ -112,12 +130,15 @@ namespace TwitchBotApi.Scripting
             }
         }
 
-        /*
-         * Check if there is a IMessageHandler for the IRC message, and handle it. 
-         * Returns  false if no IMessageHandler was registered for that command.
-         */
+        /// <summary>
+        /// <para> Handles an <see cref="TwitchBotApi.IRC.IRCMessage"/>, with the appropriate <see cref="TwitchBotApi.Scripting.IMessageHandler"/> </para>
+        /// </summary>
+        /// <param name="message">The message to handle</param>
+        /// <returns> Whether a matching <see cref="TwitchBotApi.Scripting.IMessageHandler"/> was found </returns>
         public static bool HandleIrcMessage(IRCMessage message)
         {
+            IRCMessage msg = ParseIrcMessage(null);
+
             IMessageHandler handler;
 
             if (messageHandlerMap.TryGetValue(message.Command, out handler))

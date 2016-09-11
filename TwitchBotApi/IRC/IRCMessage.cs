@@ -4,20 +4,23 @@ using System.Text;
 
 namespace TwitchBotApi.IRC
 {
+    /// <summary>
+    /// Object that represents a parsed IRC message.
+    /// </summary>
     public class IRCMessage : EventArgs
     {
-        //The IRC command, identifies this message
+        /// <summary>The IRC command, identifies this message.</summary>
         public string Command { get; set; }
 
-        //Any extra parameters for the command
+        /// <summary>Any extra parameters for the command.</summary>
         public List<string> Params { get; set; }
 
         public string Sender { get; set; }
 
-        //The actual message contents
+        /// <summary>The actual message contents.</summary>
         public string Message { get; set; }
 
-        //Key-Value tags for the message
+        /// <summary>Key-Value mapped tags for the command.</summary>
         public Dictionary<string, string> Tags { get; set; }
 
         public IRCMessage()
@@ -26,6 +29,7 @@ namespace TwitchBotApi.IRC
             Tags = new Dictionary<string, string>();
         }
 
+        //Debug code
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();

@@ -17,7 +17,9 @@ namespace TwitchBotApi.Utility
         private LogLevel() { }
     }
 
-    //Static class for "fancy" console logging
+    /// <summary>
+    /// Console logging in 2k16 LUL
+    /// </summary>
     public static class Logger
     {
         private static Thread thread;

@@ -1,31 +1,46 @@
 ﻿namespace TwitchBotApi.Scripting
 {
-    /*
-     * Interface for generic information about the bot.
-     * Only one script must inherit from this.
-     */
+    /// <summary>
+    /// Interface for generic information about the bot.
+    /// </summary>
+    /// <remarks>
+    /// Only and at least one script should inherit from this interface.
+    /// </remarks>
     public interface IMainScript : IScript
     {
-        //twitch irc server info
+        /// <summary>Twitch IRC server info</summary>
         string Host { get; }
+
+        /// <summary>Twitch IRC server info</summary>
         ushort Port { get; }
 
-        //User info
+        /// <summary>User info</summary>
+        /// <remarks>Should be in lower case</remarks>
         string Username { get; }
-        //Password is the oath key
+
+        /// <summary>User info</summary>
+        /// <remarks>The password is the oauth key, not the account password</remarks>
         string Password { get; } 
 
-        //Connection timeout values. Use 0 for infinite.
+        /// <summary>Connection timeout</summary>
+        /// <remarks>Setting this to 0 will make the timeout infinite</remarks>
         int SendTimeout { get; }
-        //WARNING: setting a small ReceiveTimeout value may disconnect the bot if the chat is not active
+
+        /// <summary>Connection timeout</summary>
+        /// <remarks>
+        /// <para>Setting this to 0 will make the timeout infinite</para>
+        /// <para>Setting this to a low value may disconnect the bot randomly (chat inactivity)</para>
+        /// </remarks>
         int ReceiveTimeout { get; }
 
-        //Maximum number of network messages sent in the time interval
+        /// <summary>IRC message limiter value</summary>
         int DefaultRateLimit { get; }
-        //Interval time in seconds
+
+        /// <summary>IRC message limiter interval (in seconds)</summary>
         int DefaultRateLimitInterval { get; }
 
-        //The entry point for the application.
+
+        ///<summary> Entry point for the <seealso cref="TwitchBotApi.Scripting.ScriptEngine"/> </summary>
         void Main();
     }
 }

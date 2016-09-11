@@ -4,19 +4,17 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using TwitchBotApi.Scripting;
 using TwitchBotApi.Utility;
 
 namespace TwitchBot
 {
-    /*
-     * Helper class that does two things:
-     * 1) Creates a new AppDomain: the ScriptLoader object itself will be proxied from it
-     * 2) Loads all scripts in the new AppDomain
-     * Since Assemblies can't be unloaded at runtime, we load scripts in a new AppDomain (which CAN be unloaded).
-     * This allows runtime script reloading.
-     */
+    /// <summary>
+    /// Helper class for loading all <see cref="TwitchBotApi.Scripting.IScript"/> objects from files.
+    /// </summary>
+    /// <remarks>
+    /// All scripts will be loaded in a seperate <see cref="System.AppDomain"/>, to allow the to be unloaded.
+    /// </remarks>
     public class ScriptLoader : MarshalByRefObject
     {
         public const string SCRIPT_DIR = "Scripts";
@@ -25,7 +23,10 @@ namespace TwitchBot
         public AppDomain OldDomain { get; private set; }
         public AppDomain NewDomain { get; private set; }
 
-        //Create a new script loader in a seperate AppDomain, return the proxy object
+        /// <summary>
+        /// Create a new instance of the <see cref="ScriptLoader"/> in the seperate <see cref="System.AppDomain"/>.
+        /// </summary>
+        /// <returns>The the proxied <see cref="ScriptLoader"/></returns>
         public static ScriptLoader NewInstance()
         {
             AppDomain oldDomain = AppDomain.CurrentDomain;
@@ -40,6 +41,10 @@ namespace TwitchBot
             NewDomain = newDomain;
         }
 
+        /// <summary>
+        /// Find and load all scripts.
+        /// </summary>
+        /// <returns>If scripts could be loaded, or some exception occured.</returns>
         public bool LoadScripts()
         {
             Logger.Info("Loading scripts...");

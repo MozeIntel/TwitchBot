@@ -2,9 +2,9 @@
 
 namespace TwitchBotApi.Network
 {
-    /*
-     * Used for network output.
-     */
+    /// <summary>
+    /// Used to limit network output.
+    /// </summary>
     public class RateLimiter
     {
         private int currentRate;
@@ -32,7 +32,10 @@ namespace TwitchBotApi.Network
             interval = intervalSecs;
         }
 
-        //If the rate was exceeded, return the time the caller should wait (in seconds). Otherwise return 0.
+        /// <summary>
+        /// Try to increase the current rate.
+        /// </summary>
+        /// <returns>The time (in seconds) the caller should wait (0 if below the rate limit).</returns>
         public int Increase()
         {
             if (limit <= 0)

@@ -5,7 +5,11 @@ namespace TwitchBotApi.Utility
 {
     public class TimerHelper
     {
-        //Start a timer that destroys itself after one run. The delay is in milliseconds.
+        /// <summary>
+        /// Starts a <see cref="System.Threading.Timer"/> that destroys itself after execution.
+        /// </summary>
+        /// <param name="method">The timer callback</param>
+        /// <param name="delay">The time (in milliseconds to wait) before starting execution.</param>
         public static void SingleShot(Action method, int delay)
         {
             Timer t = null;

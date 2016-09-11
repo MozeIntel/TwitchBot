@@ -9,10 +9,9 @@ using TwitchBotApi.Utility;
 
 namespace TwitchBotApi.Network
 {
-    /*
-     * Helper class for network output.
-     * Order of messages sent is NOT guaranteed.
-     */
+    /// <summary>
+    /// Handles network ouptut asynchronously.
+    /// </summary>
     internal class SocketWriter : PausableThread
     {
         private StreamWriter writer;

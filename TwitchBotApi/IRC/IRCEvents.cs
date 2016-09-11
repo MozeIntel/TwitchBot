@@ -3,16 +3,23 @@ using System.Collections.Concurrent;
 
 namespace TwitchBotApi.IRC
 {
-    /*
-     * Helper class for handling all IRC events.
-     * This class is thread safe.
-     * The EventArgs are usually IRCMessage objects, but can be user defined.
-     * Multiple callbacks can be registered for a single event
-     */ 
+    /// <summary>
+    /// Helper class for handling IRC events.
+    /// </summary>
+    /// <remarks>
+    /// <para>This class IS thread safe.</para>
+    /// <para>The EventArgs are usually <see cref="IRCMessage"/> objects, but can be user defined.</para>
+    /// <para>Multiple callbacks can be registered for the same event.</para>
+    /// </remarks>
     public static class IRCEvents
     {
-        private static ConcurrentDictionary<string, Action<EventArgs>> eventMap = new ConcurrentDictionary<string, Action<EventArgs>>();
+        private static ConcurrentDictionary<string, Action<EventArgs>> eventMap = new ConcurrentDictionary<string, Action<EventArgs>>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Register an event.
+        /// </summary>
+        /// <param name="name">The name of the event. Case is ignored.</param>
+        /// <param name="callback">The event callback.</param>
         public static void Register(string name, Action<EventArgs> callback)
         {
             if (!eventMap.TryAdd(name, callback))
@@ -21,6 +28,11 @@ namespace TwitchBotApi.IRC
             }
         }
 
+        /// <summary>
+        /// Raise an event.
+        /// </summary>
+        /// <param name="name">The name of the event. Case is ignored.</param>
+        /// <param name="args">The argurment for the event.</param>
         public static void Invoke(string name, EventArgs args)
         {
             Action<EventArgs> action;
@@ -31,6 +43,10 @@ namespace TwitchBotApi.IRC
             }
         }
 
+        /// <summary>
+        /// Raise an event with no argument.
+        /// </summary>
+        /// <param name="name">The name of the event. Case is ignored.</param>
         public static void Invoke(string name)
         {
             Action<EventArgs> action;

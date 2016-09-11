@@ -2,13 +2,15 @@
 
 namespace TwitchBotApi.Utility
 {
+    /// <summary>
+    /// Represents the execution state of a <see cref="PausableThread"/>.
+    /// </summary>
     public enum ThreadState
     {
         PAUSED,
         RUNNING,
         STOPPED
     }
-
 
     public abstract class PausableThread
     {
@@ -51,7 +53,12 @@ namespace TwitchBotApi.Utility
             UpdateState(ThreadState.STOPPED);
         }
 
-        //The thread state does NOT reset to Paused after the method is run.
+        /// <summary>
+        /// The method that's called once the <see cref="ThreadState"/> is set to <see cref="ThreadState.RUNNING"/>.
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="ThreadState"/> well not be reset to <see cref="ThreadState.PAUSED"/> after execution terminates.
+        /// </remarks>
         public abstract void Run();
 
         private void ThreadMethod()

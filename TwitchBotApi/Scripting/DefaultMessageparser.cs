@@ -5,10 +5,12 @@ using TwitchBotApi.Utility;
 
 namespace TwitchBotApi.Scripting
 {
-    /*
-     * Default message parser implementation.
-     * Used only if the user doesn't provide his own.
-     */
+    /// <summary>
+    /// Default message parser implementation.
+    /// </summary>
+    /// <remarks>
+    /// This will only be used if the user doesn't provide a custom implementation.
+    /// </remarks>
     public class DefaultMessageParser : IMessageParser
     {
         public IRCMessage ParseMessage(string message)
@@ -64,7 +66,6 @@ namespace TwitchBotApi.Scripting
             return ircMsg;
         }
 
-        //Split the message, using whitespace as the delimeter
         private IEnumerable<Tuple<string, int>> SplitMessage(string message, char delim = ' ')
         {
             int prev_index = 0;

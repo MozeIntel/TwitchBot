@@ -8,14 +8,14 @@ namespace TwitchBotApi.IRC
         NORMAL,
         MOD,
         BROADCASTER,
+        STAFF,
         GLOBAL_MOD,
-        ADMIN,
-        STAFF
+        ADMIN
     }
 
     public class IRCUser
     {
-        //The IRC sender name. Should be equal to the Display Name, only lowercase
+        /// <summary>The IRC name (should equal to the <see cref="IRCUser.DisplayName"/>, only in lower-case.</summary>
         public string Name { get; set; }
 
         public string DisplayName { get; set; }
@@ -26,13 +26,14 @@ namespace TwitchBotApi.IRC
 
         public IRCUserType UserType { get; set; }
 
-        //The user's RRGGBB color code (in hex). If user never set it, defaults to string.empty
+        /// <summary>The user's RRGGBB color code (in hex). If user never set it, defaults to <see cref="string.Empty"/>.</summary>
         public string ChatColor { get; set; }
 
-        /*
-         * The minimum needed to construct a user object.
-         * Subscriber, Turbo and user-type will start out at the default (False, False, Normal)
-         */ 
+        /// <summary>
+        /// Minimum information needed to construct a <see cref="IRCUser"/> object.
+        /// </summary>
+        /// <param name="name">The IRC name for this user.</param>
+        /// <param name="channel">The channel this user is a part of.</param>
         public IRCUser(string name, string channel)
         {
             Name = name;
@@ -42,7 +43,7 @@ namespace TwitchBotApi.IRC
             UserType = name == channel ? IRCUserType.BROADCASTER : IRCUserType.NORMAL;
         }
 
-        //Parse IRC message data into an IRC user
+        //TODO: Replace with better parsing method (maybe from an IRCMessage directly)
         public IRCUser(string name, string channel, IDictionary<string, string> tags)
         {
             Name = name;
@@ -53,7 +54,10 @@ namespace TwitchBotApi.IRC
             ChatColor = tags["color"];
         }
 
-        //Update this instance of the object with a more updated version (possibly gained from a PRIVMSG)
+        /// <summary>
+        /// Updates this object with a new <see cref="IRCUser"/> object.
+        /// </summary>
+        /// <param name="newInfo">Updated object.</param>
         public void Update(IRCUser newInfo)
         {
             DisplayName = newInfo.DisplayName;
@@ -73,6 +77,10 @@ namespace TwitchBotApi.IRC
             return user == channel ? IRCUserType.BROADCASTER : ParseUserType(userTypeTag);
         }
 
+        /// <summary>
+        /// Does not count global mods, admin or staff as moderars./>
+        /// </summary>
+        /// <returns>Whether the user has moderator permissions.</returns>
         public bool IsMod()
         {
             return UserType == IRCUserType.MOD || UserType == IRCUserType.BROADCASTER;

@@ -2,16 +2,17 @@
 
 namespace TwitchBotApi.Scripting
 {
-    /*
-     * Interface for IRC message handling scripts.
-     * All scripts inheriting from this are executed asynchronously.
-     */
+    /// <summary>
+    /// Interface for scripts that handle a specific IRC command (PING, JOIN, PRIVMSG etc).
+    /// </summary>
     public interface IMessageHandler : IScript
     {
-        //The IRC command (JOIN, PING etc) this script handles. Should be unique for each script.
+        /// <summary>
+        /// The IRC command this script handles. Should be unique among all scripts.
+        /// </summary>
         string Command { get; }
 
-        //The IRCMessage.Command will always equal IMessageHandler.Command.
+
         void Handle(IRCMessage msg);
     }
 }

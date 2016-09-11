@@ -2,7 +2,9 @@
 
 namespace TwitchBotApi.Utility
 {
-    //Compare-and-Swap flag. Useful for threading sync, without needing a lock.
+    /// <summary>
+    /// Compare-and-Swap flag, used for lockless multi-threading sync.
+    /// </summary>
     public class CasFlag
     {
         private volatile int flag;
@@ -12,19 +14,24 @@ namespace TwitchBotApi.Utility
             flag = flagState ? 1 : 0;
         }
 
-        //Checks if the flag is clear: if it is, updates it to set.
+        /// <summary>
+        /// Tries to update the flag to the set state.
+        /// </summary>
+        /// <returns>Whether the flag was updated.</returns>
         public bool Set()
         {
             return Interlocked.CompareExchange(ref flag, 1, 0) == 0;
         }
 
-        //Checks if the flag is set: if it is, updates it to clear.
+        /// <summary>
+        /// Tries to update the flag to the clear state.
+        /// </summary>
+        /// <returns>Whether the flag was updated.</returns>
         public bool Clear()
         {
             return Interlocked.CompareExchange(ref flag, 0, 1) == 1;
         }
 
-        //Returns the flag state without updating it
         public bool State()
         {
             //Reads on a volatile variable are atomic, and our var is marked volatile

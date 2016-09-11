@@ -3,9 +3,12 @@ using System.Timers;
 
 namespace TwitchBotApi.Scripting
 {
+    /// <summary>
+    /// Abstract class representing a script to be executed at a specific time interval.
+    /// </summary>
     public abstract class BaseTimedScript : IScript, IDisposable
     {
-        //Interval of time (in millisecs) between callback invocations
+        /// <summary>The time interval, in seconds</summary>
         protected abstract int Interval { get; }
 
         private Timer timer;
@@ -28,7 +31,7 @@ namespace TwitchBotApi.Scripting
             timer.Stop();
         }
 
-        //Logic implementation goes in here.
+        /// <summary>Logic implementation goes here.</summary>
         protected abstract void Run();
 
         public void Dispose()

@@ -13,7 +13,7 @@ namespace TwitchBot
     /// Helper class for loading all <see cref="TwitchBotApi.Scripting.IScript"/> objects from files.
     /// </summary>
     /// <remarks>
-    /// All scripts will be loaded in a seperate <see cref="System.AppDomain"/>, to allow the to be unloaded.
+    /// All scripts will be loaded in a seperate <see cref="System.AppDomain"/>, to allow them to be unloaded.
     /// </remarks>
     public class ScriptLoader : MarshalByRefObject
     {

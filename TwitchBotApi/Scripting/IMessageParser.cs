@@ -6,7 +6,7 @@ namespace TwitchBotApi.Scripting
     /// Optional interface for the IRC message parser.
     /// </summary>
     /// <remarks>
-    /// The <seealso cref="TwitchBotApi.Scripting.ScriptEngine"/> will provide a default implementation, if needed.
+    /// The <see cref="TwitchBotApi.Scripting.ScriptEngine"/> will provide a default implementation, if needed.
     /// </remarks>
     public interface IMessageParser : IScript
     {

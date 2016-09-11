@@ -7,7 +7,7 @@ using TwitchBotApi.Utility;
 namespace TwitchBotApi.Scripting
 {
     /// <summary>
-    /// Static class for everything script related
+    /// Static class for everything script related.
     /// </summary>
     public static class ScriptEngine
     {
@@ -137,8 +137,6 @@ namespace TwitchBotApi.Scripting
         /// <returns> Whether a matching <see cref="TwitchBotApi.Scripting.IMessageHandler"/> was found </returns>
         public static bool HandleIrcMessage(IRCMessage message)
         {
-            IRCMessage msg = ParseIrcMessage(null);
-
             IMessageHandler handler;
 
             if (messageHandlerMap.TryGetValue(message.Command, out handler))

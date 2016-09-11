@@ -85,7 +85,7 @@ namespace TwitchBot
             return compilerParams;
         }
 
-        //Finds all .cs files in the script dir. Returns null if an IO exception occurs
+        //Finds all .cs files in the script dir. Returns an emtpy array if an IO exception occurs
         private string[] FindScripts()
         {
             try
@@ -95,7 +95,7 @@ namespace TwitchBot
             catch (Exception e)
             {
                 Logger.Fatal("Failed to load scripts: {0}", e);
-                return null;
+                return new string[] { };
             }
         }
 

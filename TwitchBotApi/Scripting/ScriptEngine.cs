@@ -67,13 +67,19 @@ namespace TwitchBotApi.Scripting
                 }
             }
 
+            if (messageParserScript == null)
+            {
+                Logger.Info("User didn't provide custom IMessageParser, using default");
+                messageParserScript = new DefaultMessageParser();
+            }
+
             Logger.Success("Processed {0} scripts ({1} succedeed, {2} failed)", loadedScripts.Count, success, fail);
         }
 
         //Some scripts are required for the engine to run properly
         public static bool HasNecessaryScripts()
         {
-            return mainScript != null && messageParserScript != null;
+            return mainScript != null;
         }
 
         //Start the engine!

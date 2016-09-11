@@ -45,7 +45,6 @@
     <Compile Include="Scripts\MessageHandlers\LoginMsg.cs" />
     <Compile Include="Scripts\MessageHandlers\PingMsg.cs" />
     <Compile Include="Scripts\MessageHandlers\PRIVMSGMsg.cs" />
-    <Compile Include="Scripts\MessageParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TwitchBotApi\TwitchBotApi.csproj">

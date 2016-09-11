@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using TwitchBotApi.IRC;
-using TwitchBotApi.Scripting;
 using TwitchBotApi.Utility;
 
-namespace TwitchBot.Scripts
+namespace TwitchBotApi.Scripting
 {
-    public class MessageParser : IMessageParser
+    /*
+     * Default message parser implementation.
+     * Used only if the user doesn't provide his own.
+     */
+    public class DefaultMessageParser : IMessageParser
     {
         public IRCMessage ParseMessage(string message)
         {

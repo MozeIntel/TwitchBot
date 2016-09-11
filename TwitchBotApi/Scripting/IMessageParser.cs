@@ -4,7 +4,8 @@ namespace TwitchBotApi.Scripting
 {
     /*
      * Interface for the IRC message parser.
-     * Only one script must inherit this interface.
+     * This interface is optional, the ScriptEngine will load a default implementation if none is provided.
+     * If you do choose to implement your own, only one script should inherit this.
      */ 
     public interface IMessageParser : IScript
     {
